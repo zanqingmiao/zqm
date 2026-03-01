@@ -11,7 +11,6 @@
                 <a href="{{ url_for('admin_users') }}" class="list-group-item list-group-item-action">用户管理</a>
                 <a href="{{ url_for('admin_jobs') }}" class="list-group-item list-group-item-action">职位管理</a>
                 <a href="{{ url_for('spider_yilan') }}" class="list-group-item list-group-item-action text-success">一览应届生网爬虫</a>
-                <a href="#crawlModal" data-bs-toggle="modal" class="list-group-item list-group-item-action text-primary">模拟爬虫 (测试用)</a>
             </div>
         </div>
     </div>
@@ -27,36 +26,36 @@
 </div>
 
 <!-- 爬虫配置模态框 -->
-<div class="modal fade" id="crawlModal" tabindex="-1" aria-labelledby="crawlModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="crawlModalLabel">启动爬虫</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="crawlForm">
-                    <div class="mb-3">
-                        <label for="keyword" class="form-label">职位关键词</label>
-                        <input type="text" class="form-control" id="keyword" name="keyword" value="Python">
-                    </div>
-                    <div class="mb-3">
-                        <label for="city" class="form-label">城市</label>
-                        <input type="text" class="form-control" id="city" name="city" value="全国">
-                    </div>
-                    <div class="mb-3">
-                        <label for="pages" class="form-label">抓取页数</label>
-                        <input type="number" class="form-control" id="pages" name="pages" value="1" min="1" max="10">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="startCrawl()">开始抓取</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div class="modal fade" id="crawlModal" tabindex="-1" aria-labelledby="crawlModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="crawlModalLabel">启动爬虫</h5>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <form id="crawlForm">-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="keyword" class="form-label">职位关键词</label>-->
+<!--                        <input type="text" class="form-control" id="keyword" name="keyword" value="Python">-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="city" class="form-label">城市</label>-->
+<!--                        <input type="text" class="form-control" id="city" name="city" value="全国">-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="pages" class="form-label">抓取页数</label>-->
+<!--                        <input type="number" class="form-control" id="pages" name="pages" value="1" min="1" max="10">-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>-->
+<!--                <button type="button" class="btn btn-primary" onclick="startCrawl()">开始抓取</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 {% endblock %}
 
 {% block scripts %}

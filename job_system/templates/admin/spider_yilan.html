@@ -31,11 +31,16 @@
                         <label for="url" class="form-label">目标URL</label>
                         <input type="url" class="form-control" id="url" name="url" placeholder="http://yjs.job1001.com/..." required>
                     </div>
-                    
-                    <div class="mb-3">
-                        <label for="pages" class="form-label">爬取页数</label>
-                        <input type="number" class="form-control" id="pages" name="pages" value="1" min="1" max="5">
-                        <div class="form-text">建议不要一次爬取太多页，以免被封禁。</div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="start_page" class="form-label">起始页(从0)</label>
+                            <input type="number" class="form-control" id="start_page" name="start_page" value="0" min="0">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="end_page" class="form-label">结束页(含)</label>
+                            <input type="number" class="form-control" id="end_page" name="end_page" value="2" min="0">
+                        </div>
+                        <div class="form-text">page 参数从 0 开始，范围为闭区间。</div>
                     </div>
                     
                     <button type="submit" class="btn btn-success" id="start-btn">开始爬取</button>
@@ -47,6 +52,8 @@
                     </div>
                     <span class="ms-2">正在爬取中，请稍候...（可能需要几十秒）</span>
                 </div>
+                
+                <div id="result" class="alert mt-3 d-none" role="alert"></div>
             </div>
         </div>
     </div>
@@ -55,9 +62,35 @@
 
 {% block scripts %}
 <script>
-    $('form').on('submit', function() {
+    $('form').on('submit', function(e) {
+        e.preventDefault();
         $('#start-btn').prop('disabled', true);
         $('#loading').show();
+        $('#result').addClass('d-none').removeClass('alert-success alert-danger').text('');
+        $.ajax({
+            url: "{{ url_for('spider_yilan') }}",
+            method: 'POST',
+            data: {
+                url: $('#url').val(),
+                start_page: $('#start_page').val(),
+                end_page: $('#end_page').val()
+            },
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function(resp) {
+                $('#loading').hide();
+                $('#start-btn').prop('disabled', false);
+                if (resp.success) {
+                    $('#result').removeClass('d-none').addClass('alert alert-success').text(resp.message);
+                } else {
+                    $('#result').removeClass('d-none').addClass('alert alert-danger').text(resp.message || '抓取失败');
+                }
+            },
+            error: function() {
+                $('#loading').hide();
+                $('#start-btn').prop('disabled', false);
+                $('#result').removeClass('d-none').addClass('alert alert-danger').text('请求失败，请稍后再试');
+            }
+        });
     });
 </script>
 {% endblock %}

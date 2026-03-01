@@ -239,24 +239,24 @@ def spider_yilan():
         
     if request.method == 'POST':
         target_url = request.form.get('url')
-        pages = int(request.form.get('pages', 1))
+        start_page = int(request.form.get('start_page', 0))
+        end_page = int(request.form.get('end_page', start_page))
         
         if not target_url:
-            flash('请输入目标URL')
-            return redirect(url_for('spider_yilan'))
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return jsonify({'success': False, 'message': '请输入目标URL'})
+            else:
+                flash('请输入目标URL')
+                return redirect(url_for('spider_yilan'))
             
         spider = YilanSpider()
         try:
-            jobs_data = spider.run_by_url(target_url, pages)
-            
+            jobs_data = spider.run_by_range(target_url, start_page, end_page)
             count = 0
             for job_data in jobs_data:
-                # 简单查重
                 exists = Job.query.filter_by(title=job_data['title'], company=job_data['company']).first()
                 if not exists:
-                    # 处理薪资
                     avg_salary = DataProcessor.standardize_salary(job_data['salary'])
-                    
                     job = Job(
                         title=job_data['title'],
                         company=job_data['company'],
@@ -271,11 +271,24 @@ def spider_yilan():
                     )
                     db.session.add(job)
                     count += 1
-            
             db.session.commit()
-            flash(f'爬取完成，成功入库 {count} 条数据')
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                if count > 0:
+                    return jsonify({'success': True, 'message': f'爬取完成，成功入库 {count} 条数据', 'count': count})
+                else:
+                    return jsonify({'success': True, 'message': '爬取完成，但未入库任何数据（可能已存在或未抓到数据）', 'count': 0})
+            else:
+                if count > 0:
+                    flash(f'爬取完成，成功入库 {count} 条数据')
+                else:
+                    flash('爬取完成，但未入库任何数据（可能已存在或未抓到数据）')
         except Exception as e:
-            flash(f'爬取失败: {str(e)}')
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return jsonify({'success': False, 'message': f'爬取失败: {str(e)}'})
+            else:
+                flash(f'爬取失败: {str(e)}')
+        if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+            return redirect(url_for('spider_yilan'))
             
     return render_template('admin/spider_yilan.html')
 

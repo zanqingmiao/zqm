@@ -2,6 +2,7 @@ from .base_spider import BaseSpider
 from bs4 import BeautifulSoup
 import time
 import random
+from urllib.parse import urljoin, urlparse, parse_qsl, urlencode, urlunparse
 
 class YilanSpider(BaseSpider):
     """
@@ -93,53 +94,35 @@ class YilanSpider(BaseSpider):
                 continue
                 
         return jobs
-
-    def run_by_url(self, start_url, pages=1):
-        """根据给定的URL开始爬取"""
+    
+    def make_url_with_page(self, url, page_index):
+        parsed = urlparse(url)
+        q = dict(parse_qsl(parsed.query, keep_blank_values=True))
+        q['page'] = str(int(page_index))
+        return urlunparse((parsed.scheme, parsed.netloc, parsed.path, parsed.params, urlencode(q, doseq=True), parsed.fragment))
+    
+    def run_by_range(self, start_url, start_page=0, end_page=0):
         all_jobs = []
-        current_url = start_url
-        
-        for page in range(1, pages + 1):
-            print(f"正在爬取第 {page} 页: {current_url}")
-            
-            # 发送请求
+        for idx in range(int(start_page), int(end_page) + 1):
+            current_url = self.make_url_with_page(start_url, idx)
             response = self.fetch(current_url)
-            
             if response:
-                # 解析数据
                 jobs = self.parse(response)
                 if not jobs:
-                    print("未找到职位数据，可能已到末页或被反爬")
                     break
-                    
                 all_jobs.extend(jobs)
-                print(f"第 {page} 页爬取成功，获取 {len(jobs)} 条数据")
-                
-                # 获取下一页链接
-                soup = BeautifulSoup(response.text, 'html.parser')
-                # 假设下一页按钮是 "下一页" 或者类似的 class
-                # 根据实际情况，这里简化为不支持自动翻页，或者需要解析分页器
-                # 一览的分页器通常在 .xjh_content_page 或底部的分页条
-                # 暂时只爬取当前页，如果需要翻页，需要解析分页链接
-                next_page = soup.find('a', string='下一页')
-                if next_page and 'href' in next_page.attrs:
-                    next_url = next_page['href']
-                    if not next_url.startswith('http'):
-                         # 处理相对路径
-                         if next_url.startswith('/'):
-                             current_url = "http://yjs.job1001.com" + next_url
-                         else:
-                             # 简单拼接
-                             current_url = "/".join(current_url.split('/')[:-1]) + "/" + next_url
-                else:
-                    print("未找到下一页，停止爬取")
-                    break
             else:
-                print(f"第 {page} 页请求失败")
                 break
-            
-            # 随机延时
-            if page < pages:
+            if idx < end_page:
                 time.sleep(random.uniform(2, 5))
-            
         return all_jobs
+    
+    def run_by_url(self, start_url, pages=1):
+        parsed = urlparse(start_url)
+        q = dict(parse_qsl(parsed.query, keep_blank_values=True))
+        try:
+            s = int(q.get('page', '0'))
+        except Exception:
+            s = 0
+        e = s + int(pages) - 1
+        return self.run_by_range(start_url, s, e)
