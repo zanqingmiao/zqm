@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6b36d245-fc87-4fbb-b8f2-25b286be4647" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/PythonProject1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/analysis/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/analysis/data_processor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/analysis/visualizer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/extensions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/spider/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/spider/base_spider.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/spider/mock_spider.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/spider/yilan_spider.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/admin/dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/admin/jobs.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/admin/spider_yilan.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/admin/users.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/analysis.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/job_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/job_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/my_favorites.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_system/templates/register.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="3AKwcq0VWAUxQ1maISEV7lHxnCo" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/zqm/Desktop/毕设/PythonProject1",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\zqm\Desktop\毕设\PythonProject1" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-PY-251.25410.159" />
+        <option value="bundled-python-sdk-e0ed3721d81e-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.159" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="6b36d245-fc87-4fbb-b8f2-25b286be4647" name="更改" comment="" />
+      <created>1772354651842</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1772354651842</updated>
+      <workItem from="1772354652865" duration="17000" />
+      <workItem from="1772354695366" duration="63000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

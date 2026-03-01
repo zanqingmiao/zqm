@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card mt-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2>{{ job.title }}</h2>
+        <button id="fav-btn" class="btn {% if is_favorite %}btn-danger{% else %}btn-outline-danger{% endif %}" onclick="toggleFavorite()">
+            {% if is_favorite %}取消收藏{% else %}收藏职位{% endif %}
+        </button>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title text-primary">{{ job.salary }}</h5>
+        <p class="card-text">
+            <span class="badge bg-secondary me-2">{{ job.city }}</span>
+            <span class="badge bg-info me-2">{{ job.experience }}</span>
+            <span class="badge bg-warning me-2">{{ job.education }}</span>
+        </p>
+        <hr>
+        <h4>公司信息</h4>
+        <p>{{ job.company }}</p>
+        
+        <h4>职位描述</h4>
+        <div class="bg-light p-3 rounded">
+            {{ job.requirement }}
+        </div>
+        
+        <div class="mt-4">
+            <a href="{{ job.source_url }}" target="_blank" class="btn btn-primary">查看原网页</a>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+        抓取时间: {{ job.crawled_at }}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function toggleFavorite() {
+    $.post("{{ url_for('toggle_favorite', job_id=job.id) }}", function(data) {
+        if (data.success) {
+            if (data.is_favorite) {
+                $('#fav-btn').removeClass('btn-outline-danger').addClass('btn-danger').text('取消收藏');
+            } else {
+                $('#fav-btn').removeClass('btn-danger').addClass('btn-outline-danger').text('收藏职位');
+            }
+            alert(data.message);
+        } else {
+            alert(data.message);
+            if (data.message === '请先登录') {
+                window.location.href = "{{ url_for('login') }}";
+            }
+        }
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mt-4">职位数据分析</h1>
+    
+    {% if no_data %}
+    <div class="alert alert-warning" role="alert">
+        暂无数据，请先联系管理员抓取职位数据。
+    </div>
+    {% else %}
+    
+    <div class="row mt-4">
+        <!-- 柱状图 -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    城市-平均薪资与职位分布
+                </div>
+                <div class="card-body">
+                    {{ bar_html | safe }}
+                </div>
+            </div>
+        </div>
+        
+        <!-- 饼图 -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    城市职位占比
+                </div>
+                <div class="card-body">
+                    {{ pie_html | safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    热门技能关键词
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for word, count in keywords %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ word }}
+                            <span class="badge bg-primary rounded-pill">{{ count }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark">
+                    城市统计数据
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>城市</th>
+                                <th>职位数</th>
+                                <th>平均薪资</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in city_stats %}
+                            <tr>
+                                <td>{{ row.city }}</td>
+                                <td>{{ row.job_count }}</td>
+                                <td>{{ row.avg_salary }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endif %}
+</div>
+{% endblock %}

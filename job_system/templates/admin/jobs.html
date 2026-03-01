@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">职位管理</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>职位名称</th>
+                <th>公司</th>
+                <th>审核状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.id }}</td>
+                <td>{{ job.title }}</td>
+                <td>{{ job.company }}</td>
+                <td>
+                    {% if job.is_audited %}
+                    <span class="badge bg-success">已审核</span>
+                    {% else %}
+                    <span class="badge bg-warning text-dark">待审核</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not job.is_audited %}
+                    <button class="btn btn-sm btn-success" onclick="auditJob({{ job.id }})">通过</button>
+                    {% endif %}
+                    <button class="btn btn-sm btn-danger" onclick="deleteJob({{ job.id }})">删除</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- 分页 -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if pagination.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('admin_jobs', page=pagination.prev_num) }}">上一页</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">上一页</span></li>
+        {% endif %}
+
+        <li class="page-item disabled"><span class="page-link">第 {{ pagination.page }} 页 / 共 {{ pagination.pages }} 页</span></li>
+
+        {% if pagination.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('admin_jobs', page=pagination.next_num) }}">下一页</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">下一页</span></li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function auditJob(id) {
+    $.post('/admin/audit/' + id, function(data) {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
+
+function deleteJob(id) {
+    if (confirm('确定删除吗？')) {
+        $.post('/admin/delete_job/' + id, function(data) {
+            if (data.success) {
+                location.reload();
+            }
+        });
+    }
+}
+</script>
+{% endblock %}

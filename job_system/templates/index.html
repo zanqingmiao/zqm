@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">欢迎来到职位数据分析系统</h1>
+    <p class="lead">本项目提供Python相关职位的搜索、分析与可视化功能。</p>
+    <hr class="my-4">
+    <p>您可以通过以下功能开始使用：</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('job_list') }}" role="button">职位搜索</a>
+    <a class="btn btn-success btn-lg" href="{{ url_for('analysis') }}" role="button">数据分析</a>
+    
+    {% if not session.get('user_id') %}
+    <p class="mt-4">
+        还没有账号？<a href="{{ url_for('register') }}">立即注册</a>
+    </p>
+    {% endif %}
+</div>
+{% endblock %}
