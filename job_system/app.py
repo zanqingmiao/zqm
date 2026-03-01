@@ -4,6 +4,7 @@ from .config import Config
 from .models import User, Job, Favorite
 from .spider.mock_spider import MockSpider
 from .spider.yilan_spider import YilanSpider
+from .spider.china_public_spider import ChinaPublicSpider
 from .analysis.data_processor import DataProcessor
 from .analysis.visualizer import Visualizer
 import pandas as pd
@@ -291,6 +292,60 @@ def spider_yilan():
             return redirect(url_for('spider_yilan'))
             
     return render_template('admin/spider_yilan.html')
+
+@app.route('/admin/spider/china_public', methods=['GET', 'POST'])
+def spider_china_public():
+    if 'user_id' not in session or not session.get('is_admin'):
+        return redirect(url_for('index'))
+        
+    if request.method == 'POST':
+        target_url = request.form.get('url')
+        start_page = int(request.form.get('start_page', 1))
+        end_page = int(request.form.get('end_page', start_page))
+        
+        if not target_url:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return jsonify({'success': False, 'message': '请输入目标URL'})
+            else:
+                flash('请输入目标URL')
+                return redirect(url_for('spider_china_public'))
+            
+        spider = ChinaPublicSpider()
+        try:
+            jobs_data = spider.run_by_range(target_url, start_page, end_page)
+            count = 0
+            for job_data in jobs_data:
+                exists = Job.query.filter_by(title=job_data['title'], company=job_data['company']).first()
+                if not exists:
+                    avg_salary = DataProcessor.standardize_salary(job_data['salary'])
+                    job = Job(
+                        title=job_data['title'],
+                        company=job_data['company'],
+                        salary=job_data['salary'],
+                        avg_salary=avg_salary,
+                        city=job_data['city'],
+                        experience=job_data['experience'],
+                        education=job_data['education'],
+                        requirement=job_data['requirement'],
+                        source_url=job_data['source_url'],
+                        is_audited=True 
+                    )
+                    db.session.add(job)
+                    count += 1
+            db.session.commit()
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return jsonify({'success': True, 'message': f'爬取完成，成功入库 {count} 条数据', 'count': count})
+            else:
+                flash(f'爬取完成，成功入库 {count} 条数据')
+        except Exception as e:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return jsonify({'success': False, 'message': f'爬取失败: {str(e)}'})
+            else:
+                flash(f'爬取失败: {str(e)}')
+        if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+            return redirect(url_for('spider_china_public'))
+            
+    return render_template('admin/spider_china_public.html')
 
 @app.route('/admin/audit/<int:job_id>', methods=['POST'])
 def audit_job(job_id):

@@ -12,7 +12,6 @@ job_system/
     extensions.py       # Flask扩展初始化
     spider/             # 爬虫模块
         base_spider.py  # 爬虫基类
-        mock_spider.py  # 模拟爬虫（用于测试）
     analysis/           # 数据分析模块
         data_processor.py # 数据处理
         visualizer.py   # 可视化图表生成
